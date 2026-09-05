@@ -81,6 +81,13 @@ function detrazioneLavoroDipendente(reddito: number): number {
   return d;
 }
 
+// Taglio del cuneo fiscale — art. 1 c. 4-9 L. 207/2024, strutturale dal 2025.
+function ulterioreDetrazione(reddito: number): number {
+  if (reddito <= 20_000 || reddito > 40_000) return 0;
+  if (reddito <= 32_000) return 1_000;
+  return 1_000 * ((40_000 - reddito) / 8_000);
+}
+
 export function calcola(ral: number, _mensilita = 12): Risultato {
   const inps =
     ral * INPS_ALIQUOTA +
@@ -88,10 +95,14 @@ export function calcola(ral: number, _mensilita = 12): Risultato {
   const imponibile = ral - inps;
   const { totale: irpefLorda, dettaglio } = perScaglioni(imponibile, SCAGLIONI_IRPEF);
 
-  // la detrazione non può superare l'imposta: l'IRPEF non va sotto zero (incapienza)
+  // le detrazioni non possono superare l'imposta: l'IRPEF non va sotto zero (incapienza)
   const detrazione = Math.min(detrazioneLavoroDipendente(imponibile), irpefLorda);
+  const ulteriore = Math.min(
+    ulterioreDetrazione(imponibile),
+    irpefLorda - detrazione,
+  );
 
-  const irpefNetta = irpefLorda - detrazione;
+  const irpefNetta = irpefLorda - detrazione - ulteriore;
 
   // Base = imponibile, non l'IRPEF: le detrazioni non le riducono.
   // Non sono dovute se l'IRPEF netta è zero.
@@ -113,6 +124,7 @@ export function calcola(ral: number, _mensilita = 12): Risultato {
     },
     { label: "IRPEF lorda", importo: irpefLorda, segno: "−", dettaglio },
     { label: "Detrazioni lavoro dipendente", importo: detrazione, segno: "+" },
+    { label: "Ulteriore detrazione (L. 207/2024)", importo: ulteriore, segno: "+" },
     { label: "Addizionale regionale (Lombardia)", importo: regionale, segno: "−" },
     { label: "Addizionale comunale (Milano 0,8%)", importo: comunale, segno: "−" },
   ];
@@ -129,7 +141,7 @@ export function calcola(ral: number, _mensilita = 12): Risultato {
 
 if (import.meta.env.DEV) {
   const r = calcola(35_000, 13);
-  console.assert(Math.abs(r.nettoAnnuo - 25032.22) < 0.01, "RAL 35k", r);
+  console.assert(Math.abs(r.nettoAnnuo - 26032.22) < 0.01, "RAL 35k", r);
 }
 
 // Quanto dei prossimi `step` euro di RAL non arriva in busta.

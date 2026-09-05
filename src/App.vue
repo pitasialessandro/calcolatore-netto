@@ -233,8 +233,9 @@ function esegui() {
               in un anno", non a "com'è la busta di marzo".
             </li>
             <li>
-              Trattamento integrativo (ex bonus 100 €) non calcolato. Rileva
-              sotto i ~15.000 € di reddito.
+              Somma integrativa per redditi fino a 20.000 € non calcolata: è
+              esente da IRPEF anziché essere una detrazione, e segue regole
+              proprie.
             </li>
             <li>
               Non considerati fondi pensione, welfare aziendale, premi di

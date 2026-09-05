@@ -19,6 +19,7 @@ Le costanti fiscali stanno in cima a `calcolo.ts` con la fonte accanto.
 |---|---|---|
 | IRPEF | 23% / 33% / 43% | L. 199/2025 (2° scaglione ridotto dal 35%) |
 | Detrazioni lavoro dipendente | art. 13 TUIR, invariate | TUIR |
+| Ulteriore detrazione (cuneo fiscale) | 1.000 € tra 20k e 32k, decrescente fino a 40k | art. 1 c. 4-9 L. 207/2024 |
 | INPS dipendente | 9,19% + 1% oltre 56.224 € | INPS circ. 6/2026 |
 | Addizionale regionale Lombardia | 1,23 / 1,58 / 1,72 / 1,73% | Dipartimento delle Finanze |
 | Addizionale comunale Milano | 0,8%, esente fino a 23.000 € | Comune di Milano |
@@ -31,7 +32,8 @@ Dichiarate anche in pagina, sotto "Assunzioni e semplificazioni". Le principali:
   più bassa (~130 €) perché non porta la sua quota di detrazioni, già distribuita
   sugli altri mesi: il totale annuo resta corretto.
 - Nessun conguaglio di fine anno.
-- Trattamento integrativo non calcolato (rileva sotto i ~15.000 €).
+- Somma integrativa per redditi fino a 20.000 € non calcolata: è esente da IRPEF
+  anziché essere una detrazione, e segue regole proprie.
 - Massimale contributivo di 122.295 € non applicato.
 
 ## Sviluppo
